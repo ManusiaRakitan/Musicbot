@@ -9,8 +9,7 @@ RUN apt -qq install -y ffmpeg
 COPY . .
 RUN pip3 install --no-cache-dir -r requirements.txt
 ENV LANG en_US.UTF-8
-RUN npm install -g npm@7.6.1
-RUN npm install @mapbox/node-pre-gyp -g
+RUN npm install npm@7.6.1/node-pre-gyp -g
 RUN npm install && \
     npm run build
 CMD ["npm","start"]
