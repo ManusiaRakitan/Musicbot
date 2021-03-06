@@ -9,10 +9,7 @@ RUN apt -qq install -y ffmpeg
 COPY . .
 RUN pip3 install --no-cache-dir -r requirements.txt
 ENV LANG en_US.UTF-8
-RUN apt-get -y install curl gnupg
-RUN curl -sL https://deb.nodesource.com/setup_11.x  | bash -
-RUN apt-get -y install nodejs
-RUN npm install 
+npm install -g npm@7.6.1 
 RUN npm install @mapbox/node-pre-gyp -g
 RUN npm install && \
     npm run build
