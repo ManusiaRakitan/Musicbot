@@ -5,5 +5,5 @@ import { initHandlers } from './handlers';
     initHandlers();
 
     await bot.launch();
-    console.log(`@${bot.botInfo?.username} is running...`);
+    console.log(`@${bot.botInfo?.username} bot menyalee anjeeng...`);
 })();
