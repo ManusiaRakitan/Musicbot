@@ -1,16 +1,25 @@
-FROM nikolaik/python-nodejs:python3.9-nodejs15-slim
-# python for youtube dl installation (outdated apt package)
-ENV DEBIAN_FRONTEND noninteractive
+FROM debian:latest
 
-WORKDIR /usr/src/app
-RUN chmod 777 /usr/src/app
-RUN apt -qq update
-RUN apt -qq install -y ffmpeg
-COPY . .
-RUN pip3 install --no-cache-dir -r requirements.txt
-ENV LANG en_US.UTF-8
-RUN npm install -g npm@7.6.1
-RUN npm install @mapbox/node-pre-gyp -g
-RUN npm install && \
-    npm run build
-CMD ["npm","start"]
+RUN apt update && apt upgrade -y
+RUN apt install git curl python3-pip ffmpeg -y
+RUN pip3 install -U pip
+RUN curl -sL https://deb.nodesource.com/setup_15.x | bash -
+RUN apt-get install -y nodejs
+RUN npm i -g npm
+RUN cd / && \
+    git clone https://github.com/suprojects/CallsMusic smp && \
+    cd smp/ && \
+    rm -r .git && \
+    git clone https://github.com/pytgcalls/pytgcalls && \
+    cd pytgcalls/ && \
+    rm -r .git && \
+    npm install && \
+    npm run prepare && \
+    cd pytgcalls/js && \
+    npm install && \
+    cd ../../ && \
+    pip3 install -r requirements.txt && \
+    cd /smp && \
+    pip3 install -r requirements.txt
+WORKDIR /smp
+CMD python3 main.py
